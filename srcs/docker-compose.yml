@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+    nginx:
+        container_name:
+            nginx
+        build:
+            ./requirements/nginx
+        volumes:
+            - ./requirements/code:/code
+        ports:
+            - "443:443"
+        restart:
+            always
+        depends_on:
+            - wordpress
+        networks:
+            - network
+
+    # mysql:
+        # container_name: mariadb
+    #     build: ./requirements/mariadb
+    #     volumes:
+    #         - /var/www
+    #     environment:
+    #         MYSQL_ROOT_PASSWORD: ${}
+    #         MYSQL_DATABASE: ${}
+    #         MYSQL_USER: ${}
+    #         MYSQL_PASSWORD: ${}
+    #     restart: always
+
+    wordpress:
+        container_name:
+            wordpress
+        build:
+            ./requirements/wordpress
+        volumes:
+            - ./requirements/code:/code
+        networks:
+            - network
+
+networks:
+    network:
+
+
+
+
