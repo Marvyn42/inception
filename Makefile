@@ -1,16 +1,36 @@
 NAME	=	inception
 
-all:	$(NAME)
+up:
+	@echo "Starting services..."
+	@docker-compose --project-directory srcs -f srcs/docker-compose.yml up --build -d
+	@echo "\033[32m\nSuccess !\033[0m"
 
-$(NAME):
-	docker-compose --project-directory srcs -f srcs/docker-compose.yml up -d
+down: volume
+	@echo "Stopping services...\n"
+	@docker-compose --project-directory srcs -f srcs/docker-compose.yml down 
+	@echo "\033[32mSuccess.\033[0m"
 
-clean:
-	docker-compose --project-directory srcs -f srcs/docker-compose.yml down
+volume:
+	@echo -n "\nVolume suppression in Docker ...\n    "
+	@docker volume  rm -f srcs_data1
+	@echo "\033[32mSuccess.\033[0m"
 
-fclean: clean
-	docker system prune -af
+	@echo -n "    "
+	@docker volume  rm -f srcs_data2
+	@echo "\033[32mSuccess.\033[0m"
 
-re: fclean all
+	@echo "\nRecreated local volume ... "
+	@sudo rm -rf ./srcs/requirements/data
+	@sudo rm -rf ./srcs/requirements/code
+	@mkdir -p ./srcs/requirements/data
+	@mkdir -p ./srcs/requirements/code
+	@echo "\033[32mSuccess.\033[0m"
 
-.PHONY:	all clean fclean re
+clean: down volume
+	@echo "\nSystem prune ..."
+	@docker system prune -af
+	@echo "\033[32mSuccess.\033[0m"
+
+re: clean up
+
+.PHONY:	up down volume clean re

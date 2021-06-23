@@ -7,41 +7,63 @@ services:
         build:
             ./requirements/nginx
         volumes:
-            - ./requirements/code:/code
+            - type: volume
+              source: data1
+              target: /code
         ports:
             - "443:443"
         restart:
-            always
+            unless-stopped
         depends_on:
             - wordpress
         networks:
             - network
-
-    # mysql:
-        # container_name: mariadb
-    #     build: ./requirements/mariadb
-    #     volumes:
-    #         - /var/www
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: ${}
-    #         MYSQL_DATABASE: ${}
-    #         MYSQL_USER: ${}
-    #         MYSQL_PASSWORD: ${}
-    #     restart: always
 
     wordpress:
         container_name:
             wordpress
         build:
             ./requirements/wordpress
+        depends_on:
+            - mariadb
         volumes:
-            - ./requirements/code:/code
+            - type: volume
+              source: data1
+              target: /code
         networks:
             - network
+        restart:
+            unless-stopped
+
+    mariadb:
+        container_name: mariadb
+        build: ./requirements/mariadb
+        volumes:
+            - type: volume
+              source: data2
+              target: /var
+        # environment:
+        #     MYSQL_ROOT_PASSWORD: ${}
+        #     MYSQL_DATABASE: ${}
+        #     MYSQL_USER: ${}
+        #     MYSQL_PASSWORD: ${}
+        restart:
+            unless-stopped
+        networks:
+            - network
+
 
 networks:
     network:
 
-
-
-
+volumes:
+    data1:
+        driver_opts:
+            type: "none"
+            o: "bind"
+            device: "/home/user42/Documents/inception/srcs/requirements/code"
+    data2:
+        driver_opts:
+            type: "none"
+            o: "bind"
+            device: "/home/user42/Documents/inception/srcs/requirements/data"
