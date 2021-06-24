@@ -1,11 +1,11 @@
 NAME	=	inception
 
-up:
+up: 
 	@echo "Starting services..."
 	@docker-compose --project-directory srcs -f srcs/docker-compose.yml up --build -d
 	@echo "\033[32m\nSuccess !\033[0m"
 
-down: volume
+down:
 	@echo "Stopping services...\n"
 	@docker-compose --project-directory srcs -f srcs/docker-compose.yml down 
 	@echo "\033[32mSuccess.\033[0m"
@@ -31,6 +31,6 @@ clean: down volume
 	@docker system prune -af
 	@echo "\033[32mSuccess.\033[0m"
 
-re: clean up
+re: down volume up
 
 .PHONY:	up down volume clean re
