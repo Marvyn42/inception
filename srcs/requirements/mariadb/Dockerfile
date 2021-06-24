@@ -12,7 +12,7 @@ RUN     mysql_install_db --user=mysql --datadir=/var/lib/mysql
 RUN     mysqld -umysql &\
         sleep 3 &&\
         echo "CREATE DATABASE newdb;" | mysql &&\
-        echo "CREATE USER 'mama'@'%' IDENTIFIED BY 'wesh';" | mysql &&\
+        echo "CREATE USER 'mama'@'%' IDENTIFIED BY 'DBpassword';" | mysql &&\
         echo "GRANT ALL PRIVILEGES ON newdb.* TO 'mama'@'%';" | mysql &&\
         echo "FLUSH PRIVILEGES;" | mysql
 
