@@ -1,8 +1,8 @@
 NAME	=	inception
 
 up:
-	@mkdir -p ./srcs/requirements/data
-	@mkdir -p ./srcs/requirements/code
+	@mkdir -p /home/mamaquig/data/nginx_volume
+	@mkdir -p /home/mamaquig/data/my_wp_volume
 	@echo "Starting services..."
 	@docker-compose --project-directory srcs -f srcs/docker-compose.yml up --build -d
 	@echo "\033[32m\nSuccess !\033[0m"
@@ -22,10 +22,10 @@ volume:
 	@echo "\033[32mSuccess.\033[0m"
 
 	@echo "\nRecreated local volume ... "
-	@sudo rm -rf ./srcs/requirements/data
-	@sudo rm -rf ./srcs/requirements/code
-	@mkdir -p ./srcs/requirements/data
-	@mkdir -p ./srcs/requirements/code
+	@sudo rm -rf /home/mamaquig/data/nginx_volume
+	@sudo rm -rf /home/mamaquig/data/my_wp_volume
+	@mkdir -p /home/mamaquig/data/nginx_volume
+	@mkdir -p /home/mamaquig/data/my_wp_volume
 	@echo "\033[32mSuccess.\033[0m"
 
 clean: down volume

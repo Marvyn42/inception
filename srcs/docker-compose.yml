@@ -74,9 +74,9 @@ volumes:
         driver_opts:
             type: "none"
             o: "bind"
-            device: "${PWD}/srcs/requirements/code"
+            device: "/home/mamaquig/data/nginx_volume"
     data2:
         driver_opts:
             type: "none"
             o: "bind"
-            device: "${PWD}/srcs/requirements/data"
+            device: "/home/mamaquig/data/my_wp_volume"
