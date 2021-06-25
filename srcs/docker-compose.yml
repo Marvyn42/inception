@@ -8,7 +8,7 @@ services:
             ./requirements/nginx
         volumes:
             - type: volume
-              source: data1
+              source: nginx_volume
               target: /code
         ports:
             - "443:443"
@@ -38,7 +38,7 @@ services:
             - USER_MAIL=${USER_MAIL}
         volumes:
             - type: volume
-              source: data1
+              source: nginx_volume
               target: /code
         networks:
             - network
@@ -58,7 +58,7 @@ services:
                 - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
         volumes:
             - type: volume
-              source: data2
+              source: my_wp_volume
               target: /var
         restart:
             unless-stopped
@@ -70,12 +70,12 @@ networks:
     network:
 
 volumes:
-    data1:
+    nginx_volume:
         driver_opts:
             type: "none"
             o: "bind"
             device: "/home/mamaquig/data/nginx_volume"
-    data2:
+    my_wp_volume:
         driver_opts:
             type: "none"
             o: "bind"
