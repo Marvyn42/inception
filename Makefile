@@ -1,6 +1,8 @@
 NAME	=	inception
 
-up: 
+up:
+	@mkdir -p ./srcs/requirements/data
+	@mkdir -p ./srcs/requirements/code
 	@echo "Starting services..."
 	@docker-compose --project-directory srcs -f srcs/docker-compose.yml up --build -d
 	@echo "\033[32m\nSuccess !\033[0m"
