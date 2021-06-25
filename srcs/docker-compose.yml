@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.4'
 
 services:
     nginx:
@@ -26,9 +26,10 @@ services:
             ./requirements/wordpress
         depends_on:
             - mariadb
-        env_file:
-            - .env
         environment:
+            - MYSQL_NAME=${MYSQL_NAME}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
             - ADMIN_USER=${ADMIN_USER}
             - ADMIN_PASSWORD=${ADMIN_PASSWORD}
             - ADMIN_MAIL=${ADMIN_MAIL}
@@ -47,12 +48,13 @@ services:
     mariadb:
         container_name: mariadb
         build:
-			context: ./requirements/mariadb
-			args:
-				- MYSQL_CLIENT=${MYSQL_CLIENT}
-				- MYSQL_NAME=${MYSQL_NAME}
-				- MYSQL_USER=${MYSQL_USER}
-				- MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            context: ./requirements/mariadb
+            args:
+                - MYSQL_CLIENT=${MYSQL_CLIENT}
+                - MYSQL_NAME=${MYSQL_NAME}
+                - MYSQL_USER=${MYSQL_USER}
+                - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+                - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
         volumes:
             - type: volume
               source: data2
@@ -71,9 +73,9 @@ volumes:
         driver_opts:
             type: "none"
             o: "bind"
-            device: "/home/user42/Documents/inception/srcs/requirements/code"
+            device: "${PWD}/srcs/requirements/code"
     data2:
         driver_opts:
             type: "none"
             o: "bind"
-            device: "/home/user42/Documents/inception/srcs/requirements/data"
+            device: "${PWD}/srcs/requirements/data"
