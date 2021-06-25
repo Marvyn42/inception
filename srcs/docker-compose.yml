@@ -26,6 +26,15 @@ services:
             ./requirements/wordpress
         depends_on:
             - mariadb
+        env_file:
+            - .env
+        environment:
+            - ADMIN_USER=${ADMIN_USER}
+            - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+            - ADMIN_MAIL=${ADMIN_MAIL}
+            - USER_NAME=${USER_NAME}
+            - USER_PASSWORD=${USER_PASSWORD}
+            - USER_MAIL=${USER_MAIL}
         volumes:
             - type: volume
               source: data1
@@ -37,16 +46,17 @@ services:
 
     mariadb:
         container_name: mariadb
-        build: ./requirements/mariadb
+        build:
+			context: ./requirements/mariadb
+			args:
+				- MYSQL_CLIENT=${MYSQL_CLIENT}
+				- MYSQL_NAME=${MYSQL_NAME}
+				- MYSQL_USER=${MYSQL_USER}
+				- MYSQL_PASSWORD=${MYSQL_PASSWORD}
         volumes:
             - type: volume
               source: data2
               target: /var
-        # environment:
-        #     MYSQL_ROOT_PASSWORD: ${}
-        #     MYSQL_DATABASE: ${}
-        #     MYSQL_USER: ${}
-        #     MYSQL_PASSWORD: ${}
         restart:
             unless-stopped
         networks:
