@@ -2,8 +2,8 @@ version: '3.4'
 
 services:
     nginx:
-        container_name:
-            nginx
+        container_name: nginx
+        image: nginx:v01
         build:
             ./requirements/nginx
         volumes:
@@ -20,8 +20,8 @@ services:
             - network
 
     wordpress:
-        container_name:
-            wordpress
+        container_name: wordpress
+        image: wordpress:v01
         build:
             ./requirements/wordpress
         depends_on:
@@ -47,6 +47,7 @@ services:
 
     mariadb:
         container_name: mariadb
+        image: mariadb:v01
         build:
             context: ./requirements/mariadb
             args:

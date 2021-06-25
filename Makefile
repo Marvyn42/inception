@@ -29,10 +29,12 @@ volume:
 	@echo "\033[32mSuccess.\033[0m"
 
 clean: down volume
+
+fclean: clean
 	@echo "\nSystem prune ..."
 	@docker system prune -af
 	@echo "\033[32mSuccess.\033[0m"
 
-re: down volume up
+re: clean up
 
-.PHONY:	up down volume clean re
+.PHONY:	up down volume clean fclean re 
